@@ -11,7 +11,7 @@ technologies:
 
 ```
 npm init -y
-npm install express axios nodemon cheerio
+npm install express axios nodemon cheerio morgan
 ```
 
 to use nodemon, edit the `package.json` file and include:
@@ -22,10 +22,11 @@ to use nodemon, edit the `package.json` file and include:
 }
 ```
 
-run the server with
+can run the default or dev server
 
 ```
 npm start
+npm dev
 ```
 
 axios can be used to get the **HTML** and cheerio can be used to load the **HTML's data**
