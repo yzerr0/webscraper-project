@@ -11,8 +11,10 @@ technologies:
 
 ```
 npm init -y
-npm install express axios nodemon cheerio morgan
+npm install express axios nodemon cheerio morgan cors
 ```
+
+`cors` allows the backend to talk to the front / prevents cross origin issues
 
 to use nodemon, edit the `package.json` file and include:
 
@@ -22,11 +24,10 @@ to use nodemon, edit the `package.json` file and include:
 }
 ```
 
-can run the default or dev server
+run the server with
 
 ```
 npm start
-npm dev
 ```
 
 axios can be used to get the **HTML** and cheerio can be used to load the **HTML's data**
