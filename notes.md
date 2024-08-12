@@ -28,7 +28,7 @@ run the server with
 
 ```
 npm start
-// or the nodemon dev server
+# or nodemon dev serv
 npm run development
 ```
 
