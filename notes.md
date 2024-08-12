@@ -28,6 +28,8 @@ run the server with
 
 ```
 npm start
+// or the nodemon dev server
+npm run development
 ```
 
 axios can be used to get the **HTML** and cheerio can be used to load the **HTML's data**

@@ -10,33 +10,33 @@ const PORT = process.env.PORT || 4000;
 app.use(express.json());
 app.use(morgan('dev'));
 app.use(cors());
-// app.use(express.urlencoded({ extended: true }));
 
-async function scraper(URL = "https://us.bape.com/collections/gender-men") {
-    // test url
-    await axios(URL).then((response) => {
+async function scraper(URL) {
+    try {
+        console.log('Scraping:', URL);
+        const response = await axios.get(URL);
         const html = response.data;
         const $ = cheerio.load(html);
         const title = $("title").text();
-        console.log(title);
-    });
+        return { title };
+    } catch (error) {
+        console.error('Error scraping:', error);
+        return { error: 'Failed to scrape the website' };
+    }
 }
 
 app.get("/", (req, res) => {
     res.status(200).send('Welcome to the Web Scraper API');
 });
 
-app.get("/api/scrape", (req, res) => {
-    return scraper();
-    /*
+app.get("/api/scrape/", async (req, res) => {
     const URL = req.query.url;
     if (!URL) {
-        res.status(400).send('Please provide a URL');
+        return res.status(400).send('Please provide a URL');
     }
-    scraper(URL).then((data) => {
-        res.status(200).send(data);
-    });
-    */
+
+    const data = await scraper(URL);
+    res.status(200).send(data);
 });
 
 app.listen(PORT, () => {
