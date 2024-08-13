@@ -33,12 +33,18 @@ app.get("/", (req, res) => {
 app.get("/api/scrape/", async (req, res) => {
     const URL = req.query.url;
     if (!URL) {
-        return res.status(400).send('Please provide a URL');
+       let error = new Error('URL is required');
+       error.status = 400;
+       return next(error);
     }
 
     const data = await scraper(URL);
     res.status(200).send(data);
 });
+
+app.use((err, req, res, next) => {
+    res.status(err.status || 500).send(err.message);
+  });
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
