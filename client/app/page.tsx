@@ -22,7 +22,7 @@ const Page = () => {
     try {
       const response = await axios.get('http://localhost:4000/api/scrape', { params: { url }});
       setData(response.data.title);
-      console.log(response.data);
+      console.log(`Response data: ${response.data}`);
     } catch (err) {
       setError('Error scraping URL');
     } finally {
@@ -51,8 +51,8 @@ const Page = () => {
       {error && <p className="text-red-500 mt-4">{error}</p>}
       {data && (
         <div className="bg-white shadow-md rounded p-4 mt-4 w-1/2">
-          <h2 className="text-2xl font-bold mb-2">Scraped Data:</h2>
-          <pre className="whitespace-pre-wrap">{data}</pre>
+          <h2 className="text-2xl font-bold mb-2 text-black">Scraped Data:</h2>
+          <pre className="whitespace-pre-wrap text-black">{data}</pre>
         </div>
       )}
     </div>
