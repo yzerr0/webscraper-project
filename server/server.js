@@ -18,7 +18,8 @@ async function scraper(URL) {
         const html = response.data;
         const $ = cheerio.load(html);
         const title = $("title").text();
-        return { title };
+        const body = $("body").text();
+        return { title, body };
     } catch (error) {
         console.error('Error scraping:', error);
         return { error: 'Failed to scrape the website' };

@@ -2,10 +2,11 @@
 
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
+import { title } from 'process';
 
 const Page = () => {
   const [url, setUrl] = useState('');
-  const [data, setData] = useState<string | null>(null);
+  const [data, setData] = useState<ScrapedData | null>();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -21,7 +22,7 @@ const Page = () => {
 
     try {
       const response = await axios.get('http://localhost:4000/api/scrape', { params: { url }});
-      setData(response.data.title);
+      setData({title: response.data.title, body: response.data.body});
       console.log(`Response data: ${response.data}`);
     } catch (err) {
       setError('Error scraping URL');
@@ -52,11 +53,17 @@ const Page = () => {
       {data && (
         <div className="bg-white shadow-md rounded p-4 mt-4 w-1/2">
           <h2 className="text-2xl font-bold mb-2 text-black">Scraped Data:</h2>
-          <pre className="whitespace-pre-wrap text-black">{data}</pre>
+          <pre className="whitespace-pre-wrap text-black text-xl">{data.title}</pre>
+          <p className="text-base text-black">{data.body}</p>
         </div>
       )}
     </div>
   );
+}
+
+interface ScrapedData {
+  title: string;
+  body: string;
 }
 
 export default Page;
