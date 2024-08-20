@@ -102,6 +102,11 @@ app.post("/register", async (req, res, next) => {
     }
 });
 
+app.get("/logout", (req, res) => {
+    req.logout();
+    res.redirect("/");
+});
+
 app.get("/profile", (req, res) => {
   res.render("profile", { user: req.user });
 });
