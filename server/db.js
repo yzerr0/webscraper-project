@@ -1,6 +1,6 @@
-const dummy = require("dummy.json");
+const dummy = require("./dummy.json");
 
-getUserById(id, callback) = () => {
+function getUserById(id, callback) {
     try {
         user = dummy.users.find(user => user.id === id);
         callback(null, user);
@@ -18,5 +18,6 @@ function createUser(user) {
 }
 
 module.exports = {
-    getUserById
+    getUserById,
+    createUser
 }

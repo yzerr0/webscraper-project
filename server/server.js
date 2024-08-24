@@ -4,6 +4,7 @@ const cheerio = require("cheerio");
 const axios = require("axios");
 const cors = require("cors");
 const db = require("./db");
+const puppeteer = require("puppeteer");
 
 const session = require("express-session");
 const passport = require("passport");
@@ -52,19 +53,44 @@ app.use(passport.session());
 
 
 async function scraper(URL) {
+  /**
   try {
     console.log("Scraping:", URL);
     const response = await axios.get(URL);
     const html = response.data;
     const $ = cheerio.load(html);
     const title = $("title").text();
-    const body = $("body").text();
+    const body = $("span").text();
     return { title, body };
   } catch (error) {
     console.error("Error scraping:", error);
     return { error: "Failed to scrape the website" };
   }
+   */
+  monitor(URL);
 }
+async function monitor(URL) {
+  let page = await configureBrowser(URL);
+  await checkPrice(page);
+  await page.close();
+}
+
+
+async function configureBrowser(URL) {
+  const browser = puppeteer.launch();
+  const page = browser.newPage();
+  await page.goto(URL); 
+  return page;
+}
+
+async function checkPrice() {
+  const page = await configureBrowser();
+  const html = await page.content();
+  const $ = cheerio.load(html);
+  const price = $('s-item__price').text();
+  console.log(price);
+}
+
 
 app.get("/", (req, res) => {
   res.status(200).send("Welcome to the Web Scraper API");
@@ -77,7 +103,7 @@ app.get("/api/scrape/", async (req, res) => {
     error.status = 400;
     return next(error);
   }
-
+  
   const data = await scraper(URL);
   res.status(200).send(data);
 });
